@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
 import MovieList from "../MovieList/MovieList";
 import { Row, Col, Container, Spinner, ButtonGroup, Button } from "react-bootstrap";
-import Footer from "../Footer/Footer";
 function Home() {
     const [trend, setTrends] = useState([]);
     let [type, setType] = useState('trending');
@@ -26,11 +25,11 @@ function Home() {
     return (
         <>
             <ButtonGroup className='mt-3' aria-label="Basic example">
-                <Button className="w-100 text-nowrap text-capitalize" variant="primary" active ={type === 'top-rated'} onClick={handleType('top-rated')} >Top-Rated</Button>
-                <Button className="w-100 text-nowrap text-capitalize" variant="primary" active={type === 'trending'} onClick={handleType('trending')}>Trending</Button>
-                <Button className="w-100 text-nowrap text-capitalize" variant="primary" active={type === 'tv'} onClick={handleType('tv')}>series</Button>
+                <Button className="w-100 text-nowrap text-capitalize" variant="danger" active ={type === 'top-rated'} onClick={handleType('top-rated')} >Top-Rated</Button>
+                <Button className="w-100 text-nowrap text-capitalize" variant="danger" active={type === 'trending'} onClick={handleType('trending')}>Trending</Button>
+                <Button className="w-100 text-nowrap text-capitalize" variant="danger" active={type === 'tv'} onClick={handleType('tv')}>series</Button>
             </ButtonGroup>
-            <Container>
+            <Container >
                 <Row xs={1} sm={1} md={2} lg={4}>
                     {trend.length === 0  ?
                         <Container style={{ marginTop: "100px" }}>
@@ -43,7 +42,7 @@ function Home() {
                         ))}
                 </Row>
             </Container>
-            <Footer />
+            {/* <Footer /> */}
         </>
     )
 }
