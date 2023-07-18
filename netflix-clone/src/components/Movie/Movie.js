@@ -1,5 +1,4 @@
 import { Card } from "react-bootstrap";
-import theme from "../../theme/theme";
 import ModalMovie from "../ModalMovie/ModalMovie";
 function Movie({ title, image, overview, key, date,lang,type }) {
     const img_API = "https://image.tmdb.org/t/p/original";

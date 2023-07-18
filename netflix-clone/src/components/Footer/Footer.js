@@ -1,10 +1,9 @@
 import React from 'react';
 import { Container, Row, Col } from 'react-bootstrap';
-import theme from '../../theme/theme';
 
 const Footer = () => {
     return (
-        <footer className="text-white" style={{ marginTop: "70px", backgroundColor: theme.palette.darkBlue }}>
+        <footer className="text-white bg-danger" style={{ marginTop: "70px" }}>
             <Container>
                 <Row>
                     <Col sm={12} md={12}>

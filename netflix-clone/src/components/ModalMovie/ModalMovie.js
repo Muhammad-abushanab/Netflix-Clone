@@ -1,21 +1,28 @@
-import { useState } from 'react';
+import { useRef, useState } from 'react';
 import { Button, Modal, Form } from 'react-bootstrap';
 import theme from '../../theme/theme';
 function ModalMovie({ title, image, overview, img_url, type, lang }) {
     const [show, setShow] = useState(false);
-
+    const [comment, setComment] = useState('');
+    const commentInput = useRef('');
     const handleClose = () => setShow(false);
     const handleShow = () => setShow(true);
     function handleSubmit(e) {
         console.log('submitted');
         e.preventDefault();
+        console.log(commentInput.current.value);
+        setComment(commentInput.current.value);
+    }
+    function addTofav() {
         const url = process.env.REACT_APP_BACK_END_URL;
         fetch(`${url}/addmovies`, {
             method: "POST",
             body: JSON.stringify({
                 title: title,
                 lang: lang,
-                type: type || 'Movie-rated'
+                type: type || 'Movie-rated',
+                comment: comment,
+                image : image
             }),
             headers: {
                 'Content-Type': 'application/json',
@@ -26,7 +33,7 @@ function ModalMovie({ title, image, overview, img_url, type, lang }) {
     }
     return (
         <>
-            <Button style={{ background: theme.palette.darkBlue, border: theme.palette.darkBlue, borderRadius: '0', height: '50px', width: '100%' }} onClick={handleShow}>
+            <Button style={{ background: theme.variant.primary, border: theme.palette.darkBlue, borderRadius: '0', height: '50px' }} onClick={handleShow}>
                 Add to favorite
             </Button>
 
@@ -34,29 +41,32 @@ function ModalMovie({ title, image, overview, img_url, type, lang }) {
                 <Modal.Header closeButton>
                     <Modal.Title>{title}</Modal.Title>
                 </Modal.Header>
-                <Form>
-                    <Modal.Body>
-                        <img style={{ display: "block", margin: '20px' }} width={'100px'} alt='shanab' src={img_url + image} />
-                        {overview}
 
-                        <Form.Group className="mt-3 mb-3" controlId="formBasicEmail">
-                            <Form.Label className='mt-2 p-2 text-capitalize'>comment</Form.Label>
-                            <Form.Control name='comment' type="text" placeholder="I really Like this Movie" />
+                <Modal.Body>
+                    <img style={{ display: "block", margin: '20px' }} width={'100px'} alt='shanab' src={img_url + image} />
+                    {overview}
+                    <Form onSubmit={handleSubmit}>
+                        <Form.Group className="mb-3" controlId="formBasicEmail">
+                            <Form.Label>Comment</Form.Label>
+                            <Form.Control ref={commentInput} type="text"
+                                placeholder="Add comment"
+                                 />
                         </Form.Group>
-                        {/* <Button variant="primary" type="submit">
+                        <div style={{margin:'10px'}}>{comment}</div>
+                        <Button variant="primary" type="submit">
                             Add Comment
-                        </Button> */}
+                        </Button>
+                    </Form>
+                </Modal.Body>
+                <Modal.Footer>
+                    <Button style={{ backgroundColor: theme.palette.darkBlue }} onClick={handleClose}>
+                        Close
+                    </Button>
+                    <Button style={{ backgroundColor: theme.palette.babyBlue, border: `${theme.palette.babyBlue}` }} onClick={addTofav} >
+                        Save Changes
+                    </Button>
+                </Modal.Footer>
 
-                    </Modal.Body>
-                    <Modal.Footer>
-                        <Button style={{ backgroundColor: theme.palette.darkBlue }} onClick={handleClose}>
-                            Close
-                        </Button>
-                        <Button type='submit' style={{ backgroundColor: theme.palette.babyBlue, border: `${theme.palette.babyBlue}` }} onClick={handleSubmit}>
-                            Save Changes
-                        </Button>
-                    </Modal.Footer>
-                </Form>
             </Modal>
         </>
     );
